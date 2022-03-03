@@ -10,17 +10,14 @@ import { User } from '../interfaces/global.interfaces'
   styleUrls: ['./signupform.component.sass']
 })
 
-export class SignupformComponent implements OnInit {
+export class SignupformComponent {
   public isPasswordValid: boolean = true;
 
   constructor(
     private http: HttpClient,
     private router: Router
   ) { }
-
-  public ngOnInit(): void { }
-  public onSubmit(): void { }
-
+  
   signupform = new FormGroup({
     firstname: new FormControl('', [Validators.required]),
     lastname: new FormControl('', [Validators.required]),
