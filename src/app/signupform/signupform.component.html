@@ -1,0 +1,38 @@
+<h1>Welcome!</h1>
+
+<mat-card>
+  <mat-card-content>
+    <form [formGroup]="signupform" (ngSubmit)="submit()">
+      <h2>Sign Up</h2>
+      <mat-form-field>
+        <input matInput placeholder="First Name" formControlName="firstname" name="firstname" required>
+        <mat-error>
+          Please add your first name.
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Last Name" formControlName="lastname" name="lastname" required>
+        <mat-error>
+          Please add your last name.
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Email" formControlName="email" name="email" required>
+        <mat-error>
+          <div *ngIf="f['email'].errors && f['email'].errors['required']">Email is required.</div>
+          <div *ngIf="f['email'].errors && f['email'].errors['pattern']">Please, enter valid email address.</div>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput type="password" placeholder="Password" formControlName="password" name="password" required>
+        <mat-error>
+          <div *ngIf="f['password'].errors && f['password'].errors['required']">Password is required.</div>
+          <div *ngIf="f['password'].errors && f['password'].errors['minlength']">Password should be a minimum of eight characters.</div>
+          <div *ngIf="f['password'].errors && f['password'].errors['pattern']">Password should contain lower and uppercase letters.</div>
+          <div *ngIf="!isPasswordValid">Password should not contain your first or last name!</div>
+        </mat-error>
+      </mat-form-field> 
+      <button mat-raised-button color="primary" [disabled]="signupform.invalid">Sign Up</button>  
+    </form>
+  </mat-card-content>
+</mat-card>
