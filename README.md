@@ -21,4 +21,4 @@ The "first name, last name" password validation runs on submit.
 
 The form makes a `post` request to  `https://demo-api.now.sh/users` sending the first name, last name and email address. 
 
-
+After the post is successful it loads a success page and we able to create a new sign up from there.
