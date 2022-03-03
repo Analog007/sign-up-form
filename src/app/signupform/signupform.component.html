@@ -19,16 +19,16 @@
       <mat-form-field>
         <input matInput placeholder="Email" formControlName="email" name="email" required>
         <mat-error>
-          <div *ngIf="f['email'].errors && f['email'].errors['required']">Email is required.</div>
-          <div *ngIf="f['email'].errors && f['email'].errors['pattern']">Please, enter valid email address.</div>
+          <div *ngIf="emailRequired">Email is required.</div>
+          <div *ngIf="emailPattern">Please, enter valid email address.</div>
         </mat-error>
       </mat-form-field>
       <mat-form-field>
         <input matInput type="password" placeholder="Password" formControlName="password" name="password" required>
         <mat-error>
-          <div *ngIf="f['password'].errors && f['password'].errors['required']">Password is required.</div>
-          <div *ngIf="f['password'].errors && f['password'].errors['minlength']">Password should be a minimum of eight characters.</div>
-          <div *ngIf="f['password'].errors && f['password'].errors['pattern']">Password should contain lower and uppercase letters.</div>
+          <div *ngIf="passwordRequired">Password is required.</div>
+          <div *ngIf="passwordLength">Password should be a minimum of eight characters.</div>
+          <div *ngIf="passwordPattern">Password should contain lower and uppercase letters.</div>
           <div *ngIf="!isPasswordValid">Password should not contain your first or last name!</div>
         </mat-error>
       </mat-form-field> 

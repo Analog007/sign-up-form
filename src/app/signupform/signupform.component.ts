@@ -2,12 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-
-interface User {
-  firstName: string;
-  lastName: string;
-  email: string;
-}
+import { User } from '../interfaces/global.interfaces'
 
 @Component({
   selector: 'app-signupform',
@@ -21,17 +16,10 @@ export class SignupformComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private router: Router
-  ) {
+  ) { }
 
-  }
-
-  public ngOnInit(): void { 
-
-  }
-
-  public onSubmit(): void {
-
-  }
+  public ngOnInit(): void { }
+  public onSubmit(): void { }
 
   signupform = new FormGroup({
     firstname: new FormControl('', [Validators.required]),
@@ -43,37 +31,54 @@ export class SignupformComponent implements OnInit {
       Validators.required,
       Validators.minLength(8),
       Validators.pattern(/^(?=.*[A-Z])(?=.*[a-z]).*$/),
-      //Validators.pattern(this.validatePassword())
     ])
   });
 
   validatePassword(): boolean {
-    let regex = new RegExp(this.signupform.controls['firstname'].value +'|'+ this.signupform.controls['lastname'].value);
+    let regex = new RegExp(this.signupform.controls['firstname'].value + '|' + this.signupform.controls['lastname'].value);
     this.isPasswordValid = regex.test(this.signupform.controls['password'].value) ? false : true;
-    !this.isPasswordValid && this.signupform.controls['password'].setErrors({'incorrect': true});
+    !this.isPasswordValid && this.signupform.controls['password'].setErrors({ 'incorrect': true });
     return this.isPasswordValid;
   }
 
-  get f() {
-    return this.signupform.controls;
+  get emailRequired() {
+    let control = this.signupform.controls;
+    return control['email'].errors && control['email'].errors['required']
+  }
+
+  get emailPattern() {
+    let control = this.signupform.controls;
+    return control['email'].errors && control['email'].errors['pattern']
+  }
+
+  get passwordRequired() {
+    let control = this.signupform.controls;
+    return control['password'].errors && control['password'].errors['required'];
+  }
+
+  get passwordLength() {
+    let control = this.signupform.controls;
+    return control['password'].errors && control['password'].errors['minlength'];
+  }
+
+  get passwordPattern() {
+    let control = this.signupform.controls;
+    return control['password'].errors && control['password'].errors['pattern'];
   }
 
   submit() {
     this.validatePassword();
-    console.log('isvalidInSubmit: ',this.isPasswordValid);
-    if(this.signupform.valid && this.isPasswordValid){
+    console.log('isvalidInSubmit: ', this.isPasswordValid);
+    if (this.signupform.valid && this.isPasswordValid) {
       const user: User = {
         firstName: this.signupform.controls['firstname'].value,
         lastName: this.signupform.controls['lastname'].value,
         email: this.signupform.controls['email'].value,
       }
       this.http.post('https://demo-api.vercel.app/users', user)
-      .subscribe((response: any)=>{
-        console.log('repsonse ',response);
-        this.router.navigate(['/success']);
-      })
-    } else {
-
+        .subscribe(() => {
+          this.router.navigate(['/success']);
+        })
     }
   }
 }
